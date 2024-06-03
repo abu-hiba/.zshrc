@@ -7,12 +7,8 @@ HIST_STAMPS="dd.mm.yyyy"
 
 export EDITOR='nvim'
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
+# Aliases
+
 alias zshconfig="nvim ~/.zshrc"
 alias sourcezsh="source ~/.zshrc"
 
@@ -89,6 +85,7 @@ npm() {
 }
 
 # Plugins
+
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
