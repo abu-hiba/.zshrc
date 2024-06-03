@@ -1,46 +1,9 @@
-# Path to oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# zmodload zsh/zprof
 
-DISABLE_AUTO_TITLE="true"
-
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+autoload -Uz add-zsh-hook
+autoload -Uz vcs_info
 
 HIST_STAMPS="dd.mm.yyyy"
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    git
-    git-prompt
-    gradle
-    web-search
-    vi-mode
-    zsh-autosuggestions
-    nvm
-    zsh-syntax-highlighting
-)
-
-# vi-mode config
-VI_MODE_SET_CURSOR=true
-
-source $ZSH/oh-my-zsh.sh
-
-zstyle ':omz:plugins:nvm' autoload yes
-
-# User configuration
 
 export EDITOR='nvim'
 
@@ -50,49 +13,79 @@ export EDITOR='nvim'
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-webstorm() { open -a "WebStorm.app" $1 }
-idea() { open -a "IntelliJ IDEA CE.app" $1 }
-xcode() { open -a "Xcode.app" $1 }
+alias zshconfig="nvim ~/.zshrc"
+alias sourcezsh="source ~/.zshrc"
+
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias ls='ls -G'
+alias lsa='ls -lah'
+
+alias ga='git add'
+alias gaa='git add .'
+alias gc='git commit'
+alias gcmsg='git commit -m'
+alias gst='git status'
+alias gl='git pull'
+alias gp='git push'
+alias gpsup='git push --set-upstream origin $(git_current_branch)'
+alias gd='git diff'
+alias gsw='git switch'
+alias gswc='git switch -c'
+alias gswm='git switch $(git_main_branch)'
+alias gb='git branch'
+
+alias idea='open -a "IntelliJ IDEA CE.app"'
+alias webstorm='open -a "WebStorm.app"'
+alias xcode='open -a "Xcode.app"'
 
 # Prompt
-# Git prompt
-ZSH_THEME_GIT_PROMPT_PREFIX=""
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_SEPARATOR=" "
-ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[white]%}\uE0A0"
-ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[red]%}%{●%G%}"
-ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{*%G%}"
-ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[blue]%}%{+%G%}"
-ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[blue]%}%{-%G%}"
-ZSH_THEME_GIT_PROMPT_BEHIND="%{↓%G%}"
-ZSH_THEME_GIT_PROMPT_AHEAD="%{↑%G%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}%{…%G%}"
-ZSH_THEME_GIT_PROMPT_STASHED="%{$fg_bold[blue]%}%{⚑%G%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{●%G%}"
-ZSH_THEME_GIT_PROMPT_UPSTREAM_SEPARATOR="->"
 
-MY_PROMPT_PREFIX="%F{blue}#%f"
-MY_PROMPT_USERNAME="%F{cyan}%n%f"
-MY_PROMPT_MACHINE="%F{green}%m%f"
-MY_PROMPT_DIR="%F{yellow}%~%f"
-MY_PROMPT_TIME="%*"
-NEWLINE=$'\n'
-MY_PROMPT_SUFFIX="%F{red}$%f "
+# Enabling and setting git info var to be used in prompt config.
+zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr '●'
+zstyle ':vcs_info:*' stagedstr '●'
+zstyle ':vcs_info:*' formats " %b %F{yellow}%c%f %F{red}%u%f"
+add-zsh-hook precmd vcs_info
 
-PROMPT=${NEWLINE}
-PROMPT+=${MY_PROMPT_PREFIX}
-PROMPT+=" "
-PROMPT+=${MY_PROMPT_USERNAME}
-PROMPT+=" "
-PROMPT+=${MY_PROMPT_MACHINE}
-PROMPT+=" "
-PROMPT+=${MY_PROMPT_DIR}
-PROMPT+=" "
-PROMPT+='$(git_super_status)'
-PROMPT+=${NEWLINE}
-PROMPT+=${MY_PROMPT_SUFFIX}
+# Enable substitution in the prompt.
+setopt prompt_subst
 
-# Set right prompt.
-RPROMPT="${MY_PROMPT_TIME}"
+prompt_dir="%F{blue}%~%f"
+prompt_time="%F{blue}%*%f"
+prompt_newline=$'\n'
+prompt_suffix="%F{red}$%f "
+prompt_surround_open="%F{cyan}[%f"
+prompt_surround_close="%F{cyan}]%f"
+
+prompt=${prompt_newline}
+prompt+="${prompt_surround_open}${prompt_dir}${prompt_surround_close}"
+prompt+=" "
+prompt+='${vcs_info_msg_0_}'
+prompt+=${prompt_newline}
+prompt+=${prompt_suffix}
+
+RPROMPT="${prompt_surround_open}${prompt_time}${prompt_surround_close}"
+
+nvm() {
+    unset -f nvm
+    export NVM_DIR=~/.nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    nvm "$@"
+}
+node() {
+    unset -f node
+    export NVM_DIR=~/.nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    node "$@"
+}
+npm() {
+    unset -f npm
+    export NVM_DIR=~/.nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    npm "$@"
+}
+
+# zprof
