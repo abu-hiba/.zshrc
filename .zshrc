@@ -95,4 +95,13 @@ npm() {
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+
+# Tab titles
+
+set_tab_title() {
+    echo -ne "\e]1;${PWD##*/}\a"
+}
+
+add-zsh-hook precmd set_tab_title
+
 # zprof
