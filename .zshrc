@@ -7,6 +7,7 @@ HIST_STAMPS="dd.mm.yyyy"
 
 export EDITOR='nvim'
 
+
 # Aliases
 
 alias zshconfig="nvim ~/.zshrc"
@@ -35,6 +36,7 @@ alias gb='git branch'
 alias idea='open -a "IntelliJ IDEA CE.app"'
 alias webstorm='open -a "WebStorm.app"'
 alias xcode='open -a "Xcode.app"'
+
 
 # Prompt
 
@@ -65,6 +67,9 @@ prompt+=${prompt_suffix}
 
 RPROMPT="${prompt_surround_open}${prompt_time}${prompt_surround_close}"
 
+
+# Nvm initialisation
+
 nvm() {
     unset -f nvm
     export NVM_DIR=~/.nvm
@@ -83,6 +88,7 @@ npm() {
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
     npm "$@"
 }
+
 
 # Plugins
 
