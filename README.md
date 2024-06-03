@@ -1,4 +1,4 @@
-# oh-my-zsh
+# .zshrc
 
 ### Prerequesites
 - Install [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
