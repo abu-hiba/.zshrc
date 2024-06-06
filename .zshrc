@@ -12,6 +12,7 @@ export EDITOR='nvim'
 
 alias zshconfig="nvim ~/.zshrc"
 alias sourcezsh="source ~/.zshrc"
+alias editzsh="nvim ~/.zshrc"
 
 alias l='ls -lah'
 alias la='ls -lAh'
