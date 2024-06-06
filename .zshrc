@@ -92,8 +92,23 @@ npm() {
 
 # Plugins
 
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+plugins() {
+    # takes git repo url ending as argument e.g. username/repo
+    local install_plug() {
+	if [ -e ~/.zsh/$1 ]
+	then
+	    git -C ~/.zsh/$1 pull
+	else
+	    git clone https://github.com/$1.git ~/.zsh/$1
+	fi
+    }
+
+    install_plug zsh-users/zsh-autosuggestions
+    install_plug zsh-users/zsh-syntax-highlighting
+}
 
 
 # Tab titles
