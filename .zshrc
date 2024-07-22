@@ -34,6 +34,8 @@ alias gswc='git switch -c'
 alias gswm='git switch $(git_main_branch)'
 alias gb='git branch'
 
+alias tf='terraform'
+
 alias idea='open -a "IntelliJ IDEA CE.app"'
 alias webstorm='open -a "WebStorm.app"'
 alias xcode='open -a "Xcode.app"'
