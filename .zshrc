@@ -27,7 +27,11 @@ alias gcmsg='git commit -m'
 alias gst='git status'
 alias gl='git pull'
 alias gp='git push'
-alias gpsup='git push --set-upstream origin $(git_current_branch)'
+
+function parse_git_branch() {
+    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/\1/p'
+}
+alias gpsup='git push --set-upstream origin $(parse_git_branch)'
 alias gd='git diff'
 alias gsw='git switch'
 alias gswc='git switch -c'
